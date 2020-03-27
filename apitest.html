@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+.pageLocationDiv {
+	text-align: center;
+}
+
+.pageTitle {
+	margin-top: 60px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 40px;
+	color: #327087;
+}
+
+.apiLabel {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.resultsLabel {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.resultsBox {
+
+	font-size: 12px;
+	overflow-y: scroll;
+	resize: none;
+	width: 500px;
+	height: 500px;
+	font-family: "Lucida Console", Courier, monospace;
+
+}
+
+.submitButton {
+	font-family: Arial, Helvetica, sans-serif;
+	height: 50px;
+	width: 100px;
+	background: #55C34A;
+	color: white;
+	font-size: 18px;
+}
+
+</style>
+
+<!-- The following part is the part that isn't working-->
+
+<script>
+
+	function loadResponse () {
+	var xhttp = new XMLHttpRequest();
+  	xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("resultsBox").innerHTML =
+      this.responseText;
+    }
+  };
+
+var url = document.getElementById("passedURL").value;
+
+  xhttp.open("GET", url, true);
+  xhttp.send();
+
+}
+	
+</script>
+
+<!-- The above part isn't working -->
+
+</head>
+
+<body>
+
+<div class="pageLocationDiv">
+
+<h2 class="pageTitle">API Tester</h2>
+
+<form method="GET">
+
+  <label id="apiLabel" class="apiLabel">API call:</label>
+  <br>
+  <br>
+  <input id="passedURL" type="text" style="width:500px">
+  <br>
+  <br>
+  <button type="button" class="submitButton" onclick="loadResponse()">Test API</button>
+
+
+</form>
+
+<br>
+<br>
+
+<label id="resultsLabel" for="resultsBox" class="resultsLabel">Here's what was received:</label>
+
+<br>
+<br>
+
+<textarea id="resultsBox" class="resultsBox">
+The results are in...
+</textarea>
+
+</div>
+</body>
+</html>
