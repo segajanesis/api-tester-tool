@@ -46,29 +46,44 @@
 
 </style>
 
-<!-- The following part is the part that isn't working-->
-
 <script>
 
+	function handleXMLChange(xhttpObject) {
+			console.log("Current ready state", xhttpObject.readyState);
+			console.log("headers?", xhttpObject.getAllResponseHeaders());
+			if (xhttpObject.readyState == 4) {
+				var output = "Finished fetching: " + xhttpObject.urlCopy + "\n";
+				output += "Status Code: " + xhttpObject.status + "\n\n";
+				
+				output += "HTTP Response Headers:\n\n";
+				output += xhttpObject.getAllResponseHeaders();
+				output += "\n\n";
+
+				if (xhttpObject.status == 200) {
+					output += "Response data:\n\n";
+					output += xhttpObject.responseText;
+				}
+
+				document.getElementById("resultsBox").innerHTML = output;
+			} else { 
+				var output = "Request for '" + xhttpObject.urlCopy + "' is at ready state: " + xhttpObject.readyState;
+			}
+	}
+
 	function loadResponse () {
-	var xhttp = new XMLHttpRequest();
-  	xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("resultsBox").innerHTML =
-      this.responseText;
-    }
-  };
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			handleXMLChange(this);
+		};
 
-var url = document.getElementById("passedURL").value;
+		var url = document.getElementById("passedURL").value;
+		xhttp.urlCopy = url;
 
-  xhttp.open("GET", url, true);
-  xhttp.send();
-
-}
+		xhttp.open("GET", url, true);
+		xhttp.send();
+	}
 	
 </script>
-
-<!-- The above part isn't working -->
 
 </head>
 
@@ -83,7 +98,7 @@ var url = document.getElementById("passedURL").value;
   <label id="apiLabel" class="apiLabel">API call:</label>
   <br>
   <br>
-  <input id="passedURL" type="text" style="width:500px">
+  <input id="passedURL" type="text" style="width:500px" value='https://covidtracking.com/api/us'>
   <br>
   <br>
   <button type="button" class="submitButton" onclick="loadResponse()">Test API</button>
@@ -103,6 +118,10 @@ var url = document.getElementById("passedURL").value;
 The results are in...
 </textarea>
 
+<br/>
+<br/>
+Copyright Jane Kaiser 2020. Source is on github <a href="https://github.com/segajanesis/api-tester-tool">here</a>.
+
 </div>
 </body>
-</html>
+</html> 
