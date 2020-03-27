@@ -27,9 +27,9 @@
 .resultsBox {
 
 	font-size: 12px;
-	overflow-y: scroll;
+	overflow-y: auto;
 	resize: none;
-	width: 500px;
+	width: 1000px;
 	height: 500px;
 	font-family: "Lucida Console", Courier, monospace;
 
@@ -49,7 +49,7 @@
 <script>
 
 	function handleXMLChange(xhttpObject) {
-			console.log("Current ready state", xhttpObject.readyState);
+			console.log("Current ready state: " + xhttpObject.readyState + ", status: " + xhttpObject.status);
 			console.log("headers?", xhttpObject.getAllResponseHeaders());
 			if (xhttpObject.readyState == 4) {
 				var output = "Finished fetching: " + xhttpObject.urlCopy + "\n";
@@ -63,10 +63,11 @@
 					output += "Response data:\n\n";
 					output += xhttpObject.responseText;
 				}
-
+				console.log("output: " + output);
 				document.getElementById("resultsBox").innerHTML = output;
 			} else { 
 				var output = "Request for '" + xhttpObject.urlCopy + "' is at ready state: " + xhttpObject.readyState;
+				document.getElementById("resultsBox").innerHTML = output;
 			}
 	}
 
@@ -114,7 +115,7 @@
 <br>
 <br>
 
-<textarea id="resultsBox" class="resultsBox">
+<textarea id="resultsBox" class="resultsBox" disabled='disabled'>
 The results are in...
 </textarea>
 
